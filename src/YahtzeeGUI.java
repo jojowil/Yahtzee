@@ -31,9 +31,96 @@ public class YahtzeeGUI extends Application {
     // ToggleButtons for the dice!
     ToggleButton[] diceTB = new ToggleButton[5];
 
+    // Dice and rolls
     int[] dice = new int[5];
     int rolls = 3;
 
+    public void createObjects() {
+        final int minWidth = 100;
+
+        for (int x = 0 ; x < 5; x++) {
+            diceTB[x] = new ToggleButton("");
+            diceTB[x].setMinWidth(minWidth / 3);
+        }
+
+        // One ping only...
+        ButtonHandler bh = new ButtonHandler();
+
+        // everything related to the dice!
+        diceTotalLBL = new Label("Dice Total:");
+        diceTotalTF = new TextField("20");
+        diceTotalTF.setEditable(false);
+        rollsLeftLBL = new Label("Rolls Left:");
+        rollsLeftTF = new TextField("3");
+        rollsLeftTF.setEditable(false);
+        rollBTN = new Button("Roll"); rollBTN.setMinWidth(minWidth/2);
+        rollBTN.setOnAction(bh);
+
+        // scoring pane - upper section buttons
+        onesBTN = new Button("1's"); onesBTN.setMinWidth(minWidth);
+        onesBTN.setOnAction(bh);
+        twosBTN = new Button("2's"); twosBTN.setMinWidth(minWidth);
+        twosBTN.setOnAction(bh);
+        threesBTN = new Button("3's"); threesBTN.setMinWidth(minWidth);
+        threesBTN.setOnAction(bh);
+        foursBTN = new Button("4's"); foursBTN.setMinWidth(minWidth);
+        foursBTN.setOnAction(bh);
+        fivesBTN = new Button("5's"); fivesBTN.setMinWidth(minWidth);
+        fivesBTN.setOnAction(bh);
+        sixesBTN = new Button("6's"); sixesBTN.setMinWidth(minWidth);
+        sixesBTN.setOnAction(bh);
+
+        // scoring pane - upper section labels
+        subtotalLBL = new Label("Subtotal:"); GridPane.setHalignment(subtotalLBL, HPos.RIGHT);
+        bonusLBL = new Label("Bonus:"); GridPane.setHalignment(bonusLBL, HPos.RIGHT);
+        upperTotalLBL = new Label("Upper Total:"); GridPane.setHalignment(upperTotalLBL, HPos.RIGHT);
+
+        // scoring pane - upper section test fields
+        onesTF = new TextField(); onesTF.setMaxWidth(minWidth); onesTF.setEditable(false);
+        twosTF = new TextField(); twosTF.setMaxWidth(minWidth); twosTF.setEditable(false);
+        threesTF = new TextField(); threesTF.setMaxWidth(minWidth); threesTF.setEditable(false);
+        foursTF = new TextField(); foursTF.setMaxWidth(minWidth); foursTF.setEditable(false);
+        fivesTF = new TextField(); fivesTF.setMaxWidth(minWidth); fivesTF.setEditable(false);
+        sixesTF = new TextField(); sixesTF.setMaxWidth(minWidth); sixesTF.setEditable(false);
+        subtotalTF = new TextField(); subtotalTF.setMaxWidth(minWidth); subtotalTF.setEditable(false);
+        bonusTF = new TextField(); bonusTF.setMaxWidth(minWidth); bonusTF.setEditable(false);
+        upperTotalTF = new TextField(); upperTotalTF.setMaxWidth(minWidth); upperTotalTF.setEditable(false);
+
+        // scoring pane - lower section buttons
+        threeOKBTN = new Button("3 of a kind"); threeOKBTN.setMinWidth(minWidth);
+        threeOKBTN.setOnAction(bh);
+        fourOKBTN = new Button("4 of a kind"); fourOKBTN.setMinWidth(minWidth);
+        fourOKBTN.setOnAction(bh);
+        fullHouseBTN = new Button("Full House"); fullHouseBTN.setMinWidth(minWidth);
+        fullHouseBTN.setOnAction(bh);
+        smStrBTN = new Button("Small Straight"); smStrBTN.setMinWidth(minWidth);
+        smStrBTN.setOnAction(bh);
+        lgStrBTN = new Button("Large Straight"); lgStrBTN.setMinWidth(minWidth);
+        lgStrBTN.setOnAction(bh);
+        yahtzeeBTN = new Button("Yahtzee"); yahtzeeBTN.setMinWidth(minWidth);
+        yahtzeeBTN.setOnAction(bh);
+        chanceBTN = new Button("Chance"); chanceBTN.setMinWidth(minWidth);
+        chanceBTN.setOnAction(bh);
+
+        // scoring pane - lower section labels
+        totalLBL = new Label("Total Score"); GridPane.setHalignment(totalLBL, HPos.RIGHT);
+
+        // scoring pane - lower section text fields
+        threeOKTF = new TextField(); threeOKTF.setMaxWidth(minWidth); threeOKTF.setEditable(false);
+        fourOKTF = new TextField(); fourOKTF.setMaxWidth(minWidth); fourOKTF.setEditable(false);
+        fullHouseTF = new TextField(); fullHouseTF.setMaxWidth(minWidth); fullHouseTF.setEditable(false);
+        smStrTF = new TextField(); smStrTF.setMaxWidth(minWidth); smStrTF.setEditable(false);
+        lgStrTF = new TextField(); lgStrTF.setMaxWidth(minWidth); lgStrTF.setEditable(false);
+        yahtzeeTF = new TextField(); yahtzeeTF.setMaxWidth(minWidth); yahtzeeTF.setEditable(false);
+        chanceTF = new TextField(); chanceTF.setMaxWidth(minWidth); chanceTF.setEditable(false);
+        totalTF = new TextField(); totalTF.setMaxWidth(minWidth); totalTF.setEditable(false);
+    }
+
+    /**
+     * Sum the total of dice with value of dtype.
+     * @param dtype
+     * @return
+     */
     public int totalOf(int dtype) {
         int count = 0;
 
@@ -46,7 +133,9 @@ public class YahtzeeGUI extends Application {
         return count * dtype;
     }
 
-    // One handler to rule them all, and in the darkness bind them...
+    /**
+     * One handler to rule them all, and in the darkness bind them...
+     */
     private class ButtonHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent e) {
@@ -85,6 +174,10 @@ public class YahtzeeGUI extends Application {
         }
     }
 
+    /**
+     * Reset the number of rolls and the dice to the beginning.
+     * show the dice and update the rolls.
+     */
     public void resetDice() {
         rolls = 3;
         for (int x = 0 ; x < 5; x++) {
@@ -97,19 +190,7 @@ public class YahtzeeGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        final int minWidth = 100;
 
-        for (int x = 0 ; x < 5; x++) {
-            diceTB[x] = new ToggleButton("");
-            diceTB[x].setMinWidth(minWidth / 3);
-        }
-        //for (int x = 0 ; x < 5; x++)
-        //    System.out.println(dice[x]);
-
-        // One ping only...
-        ButtonHandler bh = new ButtonHandler();
-
-        // pane = scores, dicePane = all manner of rolling.
         GridPane detailPane = new GridPane();
         GridPane pane = new GridPane();
         GridPane dicePane = new GridPane();
@@ -118,74 +199,7 @@ public class YahtzeeGUI extends Application {
         VBox mainView = new VBox(detailPane, dicePane, pane);
         Scene scene = new Scene(mainView, 500, 750);
 
-        // everything related to the dice!
-        diceTotalLBL = new Label("Dice Total:");
-        diceTotalTF = new TextField("20");
-        diceTotalTF.setEditable(false);
-        rollsLeftLBL = new Label("Rolls Left:");
-        rollsLeftTF = new TextField("3");
-        rollsLeftTF.setEditable(false);
-        rollBTN = new Button("Roll"); rollBTN.setMinWidth(minWidth/2);
-        rollBTN.setOnAction(bh);
-
-        // scoring pane - upper section buttons
-        onesBTN = new Button("1's"); onesBTN.setMinWidth(minWidth);
-        onesBTN.setOnAction(bh);
-        twosBTN = new Button("2's"); twosBTN.setMinWidth(minWidth);
-        twosBTN.setOnAction(bh);
-        threesBTN = new Button("3's"); threesBTN.setMinWidth(minWidth);
-        threesBTN.setOnAction(bh);
-        foursBTN = new Button("4's"); foursBTN.setMinWidth(minWidth);
-        foursBTN.setOnAction(bh);
-        fivesBTN = new Button("5's"); fivesBTN.setMinWidth(minWidth);
-        fivesBTN.setOnAction(bh);
-        sixesBTN = new Button("6's"); sixesBTN.setMinWidth(minWidth);
-        sixesBTN.setOnAction(bh);
-        
-        // scoring pane - upper section labels
-        subtotalLBL = new Label("Subtotal:"); GridPane.setHalignment(subtotalLBL, HPos.RIGHT);
-        bonusLBL = new Label("Bonus:"); GridPane.setHalignment(bonusLBL, HPos.RIGHT);
-        upperTotalLBL = new Label("Upper Total:"); GridPane.setHalignment(upperTotalLBL, HPos.RIGHT);
-        
-        // scoring pane - upper section test fields
-        onesTF = new TextField(); onesTF.setMaxWidth(minWidth); onesTF.setEditable(false);
-        twosTF = new TextField(); twosTF.setMaxWidth(minWidth); twosTF.setEditable(false);
-        threesTF = new TextField(); threesTF.setMaxWidth(minWidth); threesTF.setEditable(false);
-        foursTF = new TextField(); foursTF.setMaxWidth(minWidth); foursTF.setEditable(false);
-        fivesTF = new TextField(); fivesTF.setMaxWidth(minWidth); fivesTF.setEditable(false);
-        sixesTF = new TextField(); sixesTF.setMaxWidth(minWidth); sixesTF.setEditable(false);
-        subtotalTF = new TextField(); subtotalTF.setMaxWidth(minWidth); subtotalTF.setEditable(false);
-        bonusTF = new TextField(); bonusTF.setMaxWidth(minWidth); bonusTF.setEditable(false);
-        upperTotalTF = new TextField(); upperTotalTF.setMaxWidth(minWidth); upperTotalTF.setEditable(false);
-
-        // scoring pane - lower section buttons
-        threeOKBTN = new Button("3 of a kind"); threeOKBTN.setMinWidth(minWidth);
-        threeOKBTN.setOnAction(bh);
-        fourOKBTN = new Button("4 of a kind"); fourOKBTN.setMinWidth(minWidth);
-        fourOKBTN.setOnAction(bh);
-        fullHouseBTN = new Button("Full House"); fullHouseBTN.setMinWidth(minWidth);
-        fullHouseBTN.setOnAction(bh);
-        smStrBTN = new Button("Small Straight"); smStrBTN.setMinWidth(minWidth);
-        smStrBTN.setOnAction(bh);
-        lgStrBTN = new Button("Large Straight"); lgStrBTN.setMinWidth(minWidth);
-        lgStrBTN.setOnAction(bh);
-        yahtzeeBTN = new Button("Yahtzee"); yahtzeeBTN.setMinWidth(minWidth);
-        yahtzeeBTN.setOnAction(bh);
-        chanceBTN = new Button("Chance"); chanceBTN.setMinWidth(minWidth);
-        chanceBTN.setOnAction(bh);
-        
-        // scoring pane - lower section labels
-        totalLBL = new Label("Total Score"); GridPane.setHalignment(totalLBL, HPos.RIGHT);
-        
-        // scoring pane - lower section text fields
-        threeOKTF = new TextField(); threeOKTF.setMaxWidth(minWidth); threeOKTF.setEditable(false);
-        fourOKTF = new TextField(); fourOKTF.setMaxWidth(minWidth); fourOKTF.setEditable(false);
-        fullHouseTF = new TextField(); fullHouseTF.setMaxWidth(minWidth); fullHouseTF.setEditable(false);
-        smStrTF = new TextField(); smStrTF.setMaxWidth(minWidth); smStrTF.setEditable(false);
-        lgStrTF = new TextField(); lgStrTF.setMaxWidth(minWidth); lgStrTF.setEditable(false);
-        yahtzeeTF = new TextField(); yahtzeeTF.setMaxWidth(minWidth); yahtzeeTF.setEditable(false);
-        chanceTF = new TextField(); chanceTF.setMaxWidth(minWidth); chanceTF.setEditable(false);
-        totalTF = new TextField(); totalTF.setMaxWidth(minWidth); totalTF.setEditable(false);
+        createObjects();
 
         GridPane.setHalignment(subtotalLBL, HPos.RIGHT);
         //GridPane.setHalignment(lsrc, HPos.CENTER);
@@ -242,6 +256,9 @@ public class YahtzeeGUI extends Application {
         showDice();
     }
 
+    /**
+     * Roll the dice, adjust rolls, and show the dice.
+     */
     public void roll() {
 
         for ( int x = 0; x < 5; x++ ) {
@@ -253,16 +270,26 @@ public class YahtzeeGUI extends Application {
         updateRolls();
     }
 
+    /**
+     * Based on the value of dice[], change the face of
+     * the dice and update the dice total.
+     */
     public void showDice() {
         for (int x = 0; x < 5; x++)
             diceTB[x].setText((dice[x] == 0) ? "" : "" + dice[x]);
         updateDiceTotal();
     }
 
+    /**
+     * Update the number of rolls remaining.
+     */
     public void updateRolls() {
         rollsLeftTF.setText("" + rolls);
     }
 
+    /**
+     * Update the dice total.
+     */
     public void updateDiceTotal() {
         int sum = 0;
         for ( int x = 0; x < 5; x++ )
