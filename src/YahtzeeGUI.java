@@ -149,17 +149,17 @@ public class YahtzeeGUI extends Application {
                 off = false;
 
             } else if (b == onesBTN) {
-                onesTF.setText("" + totalOf(1)); r = !r;
+                onesTF.setText("" + totalOf(1));
             } else if (b == twosBTN) {
-                twosTF.setText("" + totalOf(2)); r = !r;
+                twosTF.setText("" + totalOf(2));
             } else if (b == threesBTN) {
-                threesTF.setText("" + totalOf(3)); r = !r;
+                threesTF.setText("" + totalOf(3));
             } else if (b == foursBTN) {
-                foursTF.setText("" + totalOf(4)); r = !r;
+                foursTF.setText("" + totalOf(4));
             } else if (b == fivesBTN) {
-                fivesTF.setText("" + totalOf(5)); r = !r;
+                fivesTF.setText("" + totalOf(5));
             } else if (b == sixesBTN) {
-                sixesTF.setText("" + totalOf(6)); r = !r;
+                sixesTF.setText("" + totalOf(6));
             } else if (b == threeOKBTN) {
             } else if (b == fourOKBTN) {
             } else if (b == fullHouseBTN) {
@@ -170,7 +170,7 @@ public class YahtzeeGUI extends Application {
             }
 
             b.setDisable(off);
-            if (r) resetDice();
+            if (b != rollBTN) resetDice();
         }
     }
 
