@@ -297,6 +297,52 @@ public class YahtzeeGUI extends Application {
         diceTotalTF.setText("" + sum);
     }
 
+    public static boolean isLowerStraight (int[] d) {
+        int v = d[0];
+        for (int x = 1; x <=3; x++)
+            if (d[x] != v+x)
+                return false;
+        return true;
+    }
+
+    public static boolean isUpperStraight (int[] d) {
+        int v = d[1];
+        for (int x = 2; x <=4; x++)
+            if (d[x] != v+x-1)
+                return false;
+        return true;
+    }
+
+    public static boolean isSmallStraight (int[] d) {
+        return isLowerStraight(d) || isUpperStraight(d);
+    }
+
+    public static boolean isLargeStraight (int[] d) {
+        int v = d[0];
+        for (int x = 1; x <=4; x++)
+            if (d[x] != v+x)
+                return false;
+        return true;
+    }
+
+    public static boolean isFullHouse (int[] d) {
+        return ( (d[0] != d[4]) &&
+                ( ((d[0] == d[1]) && (d[2] == d[4])) ||
+                        ((d[0] == d[2]) && (d[3] == d[4])) ) );
+    }
+
+    public static boolean is3OfAKind (int[] d) {
+        return (d[0] == d[2]) || (d[1] == d[3]) || (d[2] == d[4]);
+    }
+
+    public static boolean is4OfAKind (int[] d) {
+        return (d[0] == d[3]) || (d[1] == d[4]);
+    }
+
+    public static boolean isYahtzee (int[] d) {
+        return d[0] == d[4];
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
