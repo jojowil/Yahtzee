@@ -118,8 +118,8 @@ public class YahtzeeGUI extends Application {
 
     /**
      * Sum the total of dice with value of dtype.
-     * @param dtype
-     * @return
+     * @param dtype the die value to sum.
+     * @return int as the sum of dice matching dtype.
      */
     public int totalOf(int dtype) {
         int count = 0;
@@ -297,6 +297,11 @@ public class YahtzeeGUI extends Application {
         diceTotalTF.setText("" + sum);
     }
 
+    /**
+     * Determine if the first four dice in the sorted array are sequential.
+     * @param d as the array of dice
+     * @return true if it's a lower straight.
+     */
     public static boolean isLowerStraight (int[] d) {
         int v = d[0];
         for (int x = 1; x <=3; x++)
@@ -305,6 +310,11 @@ public class YahtzeeGUI extends Application {
         return true;
     }
 
+    /**
+     * Determine if the last four dice in the sorted array are sequential.
+     * @param d as the array of dice.
+     * @return true if it's an upper straight.
+     */
     public static boolean isUpperStraight (int[] d) {
         int v = d[1];
         for (int x = 2; x <=4; x++)
@@ -313,10 +323,20 @@ public class YahtzeeGUI extends Application {
         return true;
     }
 
+    /**
+     * Determine if the sorted array of dice is a small straight.
+     * @param d is the array of dice
+     * @return true if it's a small straight
+     */
     public static boolean isSmallStraight (int[] d) {
         return isLowerStraight(d) || isUpperStraight(d);
     }
 
+    /**
+     * Determine if the sorted array of dice is a large straight
+     * @param d as the array of dice.
+     * @return true if all values are sequential.
+     */
     public static boolean isLargeStraight (int[] d) {
         int v = d[0];
         for (int x = 1; x <=4; x++)
@@ -325,20 +345,40 @@ public class YahtzeeGUI extends Application {
         return true;
     }
 
+    /**
+     * Determine if the sorted array of dice is a fill house.
+     * @param d as the array of dice.
+     * @return true if the patter xxyyy or xxxyy can be discerned.
+     */
     public static boolean isFullHouse (int[] d) {
         return ( (d[0] != d[4]) &&
                 ( ((d[0] == d[1]) && (d[2] == d[4])) ||
                         ((d[0] == d[2]) && (d[3] == d[4])) ) );
     }
 
+    /**
+     * Determine if the sorted array is 3 of a kind
+     * @param d as the sorted array of dice
+     * @return true if 1&3, 2&4, or 3&5 match.
+     */
     public static boolean is3OfAKind (int[] d) {
         return (d[0] == d[2]) || (d[1] == d[3]) || (d[2] == d[4]);
     }
 
+    /**
+     * Determine if the sorted array is 4 of a kind
+     * @param d as the sorted array of dice.
+     * @return true if 1&4 or 2&5 match.
+     */
     public static boolean is4OfAKind (int[] d) {
         return (d[0] == d[3]) || (d[1] == d[4]);
     }
 
+    /**
+     * Determine if the sorted array is 5 of a kind
+     * @param d as the sorted array of dice.
+     * @return true if 1&5 match.
+     */
     public static boolean isYahtzee (int[] d) {
         return d[0] == d[4];
     }
