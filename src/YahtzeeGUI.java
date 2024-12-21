@@ -170,7 +170,11 @@ public class YahtzeeGUI extends Application {
             }
 
             b.setDisable(off);
-            if (b != rollBTN) resetDice();
+            if (b != rollBTN) {
+                resetDice();
+                updateUpperTotal();
+                updateTotal();
+            }
         }
     }
 
@@ -295,6 +299,30 @@ public class YahtzeeGUI extends Application {
         for ( int x = 0; x < 5; x++ )
             sum = sum + dice[x];
         diceTotalTF.setText("" + sum);
+    }
+
+    /**
+     * Update the upper total along with the bonus. This is not the most
+     * efficient, but demonstrates a need to recognize we are dealing with
+     * strings and ints everywhere.
+     */
+    public void updateUpperTotal() {
+        int sum = 0;
+        // if button is disabled, something was written in the TF
+        sum = (onesBTN.isDisabled() ? Integer.parseInt(onesTF.getText()) : 0)
+                + (twosBTN.isDisabled() ? Integer.parseInt(twosTF.getText()) : 0)
+                + (threesBTN.isDisabled() ? Integer.parseInt(threesTF.getText()) : 0)
+                + (foursBTN.isDisabled() ? Integer.parseInt(foursTF.getText()) : 0)
+                + (fivesBTN.isDisabled() ? Integer.parseInt(fivesTF.getText()) : 0)
+                + (sixesBTN.isDisabled() ? Integer.parseInt(sixesTF.getText()) : 0);
+
+        subtotalTF.setText("" + sum);
+        bonusTF.setText( sum >= 63 ? "35" : "0");
+        upperTotalTF.setText(""+ (sum + Integer.parseInt(bonusTF.getText())));
+    }
+
+    public void updateTotal() {
+        int sum = 0;
     }
 
     /**
