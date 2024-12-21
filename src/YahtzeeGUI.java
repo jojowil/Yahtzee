@@ -14,6 +14,8 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.geometry.HPos;
 
+import java.util.Arrays;
+
 public class YahtzeeGUI extends Application {
 
     // All the beautiful labels!
@@ -143,11 +145,15 @@ public class YahtzeeGUI extends Application {
             boolean off = true;
             boolean r = false; // do I need to reset?
 
+            // if it's not the rollBTN, might as well sort them.
+            // we're done here...
+            if (b != rollBTN)
+                Arrays.sort(dice);
+
             if (b == rollBTN) {
                 if ( rolls > 0 )
                     roll();
                 off = false;
-
             } else if (b == onesBTN) {
                 onesTF.setText("" + totalOf(1));
             } else if (b == twosBTN) {
@@ -161,18 +167,24 @@ public class YahtzeeGUI extends Application {
             } else if (b == sixesBTN) {
                 sixesTF.setText("" + totalOf(6));
             } else if (b == threeOKBTN) {
+                threeOKTF.setText(is3OfAKind(dice) ? diceTotalTF.getText() : "0");
             } else if (b == fourOKBTN) {
+                fourOKTF.setText(is4OfAKind(dice) ? diceTotalTF.getText() : "0");
             } else if (b == fullHouseBTN) {
+                fullHouseTF.setText(isFullHouse(dice) ? "25" : "0");
             } else if (b == smStrBTN) {
+                smStrTF.setText(isSmallStraight(dice) ? "30" : "0");
             } else if (b == lgStrBTN) {
+                lgStrTF.setText(isLargeStraight(dice) ? "40" : "0");
             } else if (b == yahtzeeBTN) {
+                yahtzeeTF.setText(isYahtzee(dice) ? "50" : "0");
             } else if (b == chanceBTN) {
+                chanceTF.setText(diceTotalTF.getText());
             }
 
             b.setDisable(off);
             if (b != rollBTN) {
                 resetDice();
-                updateUpperTotal();
                 updateTotal();
             }
         }
@@ -323,6 +335,16 @@ public class YahtzeeGUI extends Application {
 
     public void updateTotal() {
         int sum = 0;
+
+        updateUpperTotal();
+        sum = (threeOKBTN.isDisabled() ? Integer.parseInt(threeOKTF.getText()) : 0)
+                + (fourOKBTN.isDisabled() ? Integer.parseInt(fourOKTF.getText()) : 0)
+                + (fullHouseBTN.isDisabled() ? Integer.parseInt(fullHouseTF.getText()) : 0)
+                + (smStrBTN.isDisabled() ? Integer.parseInt(smStrTF.getText()) : 0)
+                + (lgStrBTN.isDisabled() ? Integer.parseInt(lgStrTF.getText()) : 0)
+                + (yahtzeeBTN.isDisabled() ? Integer.parseInt(yahtzeeTF.getText()) : 0)
+                + (chanceBTN.isDisabled() ? Integer.parseInt(chanceTF.getText()) : 0);
+        totalTF.setText("" + (sum + Integer.parseInt(upperTotalTF.getText())));
     }
 
     /**
