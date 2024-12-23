@@ -95,20 +95,22 @@ public class YahtzeeGUI extends Application {
         } else {
             int[] t = Arrays.copyOf(dice, dice.length);
             Arrays.sort(t);
+            int t1 = totalOf(t, 1), t2 = totalOf(t, 2), t3 = totalOf(t, 3);
+            int t4 = totalOf(t, 4), t5 = totalOf(t, 5), t6 = totalOf(t, 6);
             for (Button b : buttons) {
                 if (!b.isDisabled()) {
-                    if (b == onesBTN) {
-                        onesTF.setPromptText("" + totalOf(t, 1));
-                    } else if (b == twosBTN) {
-                        twosTF.setPromptText("" + totalOf(t, 2));
-                    } else if (b == threesBTN) {
-                        threesTF.setPromptText("" + totalOf(t, 3));
-                    } else if (b == foursBTN) {
-                        foursTF.setPromptText("" + totalOf(t, 4));
-                    } else if (b == fivesBTN) {
-                        fivesTF.setPromptText("" + totalOf(t, 5));
-                    } else if (b == sixesBTN) {
-                        sixesTF.setPromptText("" + totalOf(t, 6));
+                    if (b == onesBTN && t1 > 0) {
+                        onesTF.setPromptText("" + t1);
+                    } else if (b == twosBTN && t2 > 0) {
+                        twosTF.setPromptText("" + t2);
+                    } else if (b == threesBTN && t3 > 0) {
+                        threesTF.setPromptText("" + t3);
+                    } else if (b == foursBTN && t4 > 0) {
+                        foursTF.setPromptText("" + t4);
+                    } else if (b == fivesBTN && t5 > 0) {
+                        fivesTF.setPromptText("" + t5);
+                    } else if (b == sixesBTN && t6 > 0) {
+                        sixesTF.setPromptText("" + t6);
                     } else if (b == threeOKBTN) {
                         threeOKTF.setPromptText(is3OfAKind(t) ? diceTotalTF.getText() : "");
                     } else if (b == fourOKBTN) {
