@@ -1,34 +1,35 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.geometry.HPos;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class YahtzeeGUI extends Application {
 
     // All the beautiful labels!
     Label rollsLeftLBL, diceTotalLBL, subtotalLBL, bonusLBL, upperTotalLBL, totalLBL;
+    ArrayList<Label> labels = new ArrayList<>();
     
     // And, of course, our essential text fields!
     TextField rollsLeftTF, diceTotalTF, onesTF, twosTF, threesTF, foursTF, fivesTF, sixesTF,
             threeOKTF, fourOKTF, fullHouseTF, smStrTF, lgStrTF, yahtzeeTF, chanceTF,
             subtotalTF, bonusTF, upperTotalTF, totalTF;
+    ArrayList<TextField> textFields = new ArrayList<>();
             
     // But where would we be without our buttons?
     Button rollBTN, onesBTN, twosBTN, threesBTN, foursBTN, fivesBTN, sixesBTN,
             threeOKBTN, fourOKBTN, fullHouseBTN, smStrBTN, lgStrBTN, yahtzeeBTN, chanceBTN;
+    ArrayList<Button> buttons = new ArrayList<>();
 
     // ToggleButtons for the dice!
     ToggleButton[] diceTB = new ToggleButton[5];
@@ -39,7 +40,7 @@ public class YahtzeeGUI extends Application {
     ButtonHandler bh = new ButtonHandler();
 
     /**
-     * Create a scoring Button
+     * Create a scoring Button and add it to the list.
      * @param n name of button
      * @param w max width of the button
      * @return actioned button object
@@ -48,11 +49,12 @@ public class YahtzeeGUI extends Application {
         Button b = new Button(n);
         b.setMinWidth(w);
         b.setOnAction(bh);
+        buttons.add(b);
         return b;
     }
 
     /**
-     * Create a scoring TextField
+     * Create a scoring TextField and add it to the list.
      * @param w max width of the TextField
      * @return non-editable TextField
      */
@@ -60,7 +62,19 @@ public class YahtzeeGUI extends Application {
         TextField tf = new TextField();
         tf.setMaxWidth(w);
         tf.setEditable(false);
+        textFields.add(tf);
         return tf;
+    }
+
+    /**
+     * Create a scoring label and add it to the list.
+     * @param n name of the label
+     * @return the label
+     */
+    public Label scoreLabel(String n) {
+        Label l = new Label(n);
+        labels.add(l);
+        return l;
     }
 
     public void createObjects() {
@@ -69,13 +83,13 @@ public class YahtzeeGUI extends Application {
 
         for (int x = 0 ; x < 5; x++) {
             diceTB[x] = new ToggleButton("");
-            diceTB[x].setMinWidth(minWidth / 3);
+            diceTB[x].setMinWidth(minWidth/3);
         }
 
         // everything related to the dice!
-        diceTotalLBL = new Label("Dice Total:");
+        diceTotalLBL = scoreLabel("Dice Total:");
         diceTotalTF = scoreTextField(minWidth);
-        rollsLeftLBL = new Label("Rolls Left:");
+        rollsLeftLBL = scoreLabel("Rolls Left:");
         rollsLeftTF = scoreTextField(minWidth);
         rollBTN = scoreButton("Roll", minWidth/2);
 
@@ -88,9 +102,9 @@ public class YahtzeeGUI extends Application {
         sixesBTN = scoreButton("6's",minWidth);
 
         // scoring pane - upper section labels
-        subtotalLBL = new Label("Subtotal:"); GridPane.setHalignment(subtotalLBL, HPos.RIGHT);
-        bonusLBL = new Label("Bonus:"); GridPane.setHalignment(bonusLBL, HPos.RIGHT);
-        upperTotalLBL = new Label("Upper Total:"); GridPane.setHalignment(upperTotalLBL, HPos.RIGHT);
+        subtotalLBL = scoreLabel("Subtotal:"); GridPane.setHalignment(subtotalLBL, HPos.RIGHT);
+        bonusLBL = scoreLabel("Bonus:"); GridPane.setHalignment(bonusLBL, HPos.RIGHT);
+        upperTotalLBL = scoreLabel("Upper Total:"); GridPane.setHalignment(upperTotalLBL, HPos.RIGHT);
 
         // scoring pane - upper section test fields
         onesTF = scoreTextField(minWidth);
@@ -113,7 +127,7 @@ public class YahtzeeGUI extends Application {
         chanceBTN = scoreButton("Chance", minWidth);
 
         // scoring pane - lower section labels
-        totalLBL = new Label("Total Score"); GridPane.setHalignment(totalLBL, HPos.RIGHT);
+        totalLBL = scoreLabel("Total Score"); GridPane.setHalignment(totalLBL, HPos.RIGHT);
 
         // scoring pane - lower section text fields
         threeOKTF = scoreTextField(minWidth);
