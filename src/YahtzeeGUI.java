@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -140,13 +141,21 @@ public class YahtzeeGUI extends Application {
         return true;
     }
 
+    public void gameOver() {
+        if (isGameOver())
+            Platform.exit();
+    }
+
+    /**
+     * Main routine to create everything!
+     */
     public void createObjects() {
 
         final int minWidth = 100;
 
         for (int x = 0; x < 5; x++) {
             diceTB[x] = new ToggleButton("");
-            diceTB[x].setMinWidth(minWidth / 3);
+            diceTB[x].setMinWidth(minWidth / 3.0);
         }
 
         // everything related to the dice!
@@ -234,7 +243,6 @@ public class YahtzeeGUI extends Application {
         public void handle(ActionEvent e) {
             Button b = (Button) e.getSource();
             boolean off = true;
-            boolean r = false; // do I need to reset?
 
             // if it's not the rollBTN, might as well sort them.
             // we're done here...
@@ -279,6 +287,7 @@ public class YahtzeeGUI extends Application {
             // change disable state.
             b.setDisable(off);
             if (b != rollBTN) {
+                gameOver();
                 resetDice();
                 updateTotal();
             }
