@@ -489,7 +489,6 @@ public class YahtzeeGUI extends Application {
      */
     public static boolean isLowerStraight(int[] d) {
         int v = d[0];
-        boolean canSkip = true;
         for (int x = 1; x <= 3; x++) {
             if (d[x] != v + x)
                 return false;
