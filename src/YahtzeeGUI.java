@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.event.EventHandler;
@@ -99,18 +101,18 @@ public class YahtzeeGUI extends Application {
             int t4 = totalOf(t, 4), t5 = totalOf(t, 5), t6 = totalOf(t, 6);
             for (Button b : buttons) {
                 if (!b.isDisabled()) {
-                    if (b == onesBTN && t1 > 0) {
-                        onesTF.setPromptText("" + t1);
-                    } else if (b == twosBTN && t2 > 0) {
-                        twosTF.setPromptText("" + t2);
-                    } else if (b == threesBTN && t3 > 0) {
-                        threesTF.setPromptText("" + t3);
-                    } else if (b == foursBTN && t4 > 0) {
-                        foursTF.setPromptText("" + t4);
-                    } else if (b == fivesBTN && t5 > 0) {
-                        fivesTF.setPromptText("" + t5);
-                    } else if (b == sixesBTN && t6 > 0) {
-                        sixesTF.setPromptText("" + t6);
+                    if (b == onesBTN) {
+                        onesTF.setPromptText((t1 >0) ? "" + t1 : "");
+                    } else if (b == twosBTN) {
+                        twosTF.setPromptText((t2 >0) ? "" + t2 : "");
+                    } else if (b == threesBTN) {
+                        threesTF.setPromptText((t3 > 0) ? "" + t3 : "");
+                    } else if (b == foursBTN) {
+                        foursTF.setPromptText((t4 > 0) ? "" + t4 : "");
+                    } else if (b == fivesBTN) {
+                        fivesTF.setPromptText((t5 > 0) ? "" + t5 : "");
+                    } else if (b == sixesBTN) {
+                        sixesTF.setPromptText((t6 > 0) ? "" + t6 : "");
                     } else if (b == threeOKBTN) {
                         threeOKTF.setPromptText(is3OfAKind(t) ? diceTotalTF.getText() : "");
                     } else if (b == fourOKBTN) {
@@ -138,14 +140,21 @@ public class YahtzeeGUI extends Application {
      */
     public boolean isGameOver() {
         for (Button b : buttons)
-            if (!b.isDisabled())
+            if (b != rollBTN && !b.isDisabled())
                 return false;
         return true;
     }
 
     public void gameOver() {
-        if (isGameOver())
+        if (isGameOver()) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Game Over");
+            alert.setHeaderText("Congratulations!");
+            alert.setContentText("You finished the game with a score of "
+                + totalTF.getText() +"!");
+            alert.showAndWait();
             Platform.exit();
+        }
     }
 
     /**
@@ -289,9 +298,9 @@ public class YahtzeeGUI extends Application {
             // change disable state.
             b.setDisable(off);
             if (b != rollBTN) {
+                updateTotal();
                 gameOver();
                 resetDice();
-                updateTotal();
             }
         }
     }
@@ -479,9 +488,11 @@ public class YahtzeeGUI extends Application {
      */
     public static boolean isLowerStraight(int[] d) {
         int v = d[0];
-        for (int x = 1; x <= 3; x++)
+        boolean canSkip = true;
+        for (int x = 1; x <= 3; x++) {
             if (d[x] != v + x)
                 return false;
+        }
         return true;
     }
 
@@ -506,8 +517,10 @@ public class YahtzeeGUI extends Application {
      * @return true if it's a small straight
      */
     public static boolean isSmallStraight(int[] d) {
-        // TODO: Does not properly detect 3 4 4 5 6 as small straight!
-        return isLowerStraight(d) || isUpperStraight(d);
+        // remove dupes to assess 3 4 4 5 6.
+        // expensive but worth it.
+        int[] t = Arrays.stream(d).distinct().toArray();
+        return (t.length >= 4 && isLowerStraight(t)) || (t.length == 5 && isUpperStraight(t));
     }
 
     /**
@@ -531,7 +544,7 @@ public class YahtzeeGUI extends Application {
      * @return true if the patter xxyyy or xxxyy can be discerned.
      */
     public static boolean isFullHouse(int[] d) {
-        return ((d[0] != d[4]) &&
+        return ((d[0] != d[4]) && // yahtzee is not a full house.
                 (((d[0] == d[1]) && (d[2] == d[4])) ||
                         ((d[0] == d[2]) && (d[3] == d[4]))));
     }
