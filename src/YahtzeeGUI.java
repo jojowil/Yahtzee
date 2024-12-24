@@ -18,6 +18,8 @@ import javafx.geometry.HPos;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/* The Yahtzee name is a registered trademark (R) and copyright (C) Hasbro */
+
 public class YahtzeeGUI extends Application {
 
     // All the beautiful labels!
@@ -394,8 +396,7 @@ public class YahtzeeGUI extends Application {
         pane.add(totalLBL, 2, 20);
         pane.add(totalTF, 3, 20);
 
-        System.out.println(pane);
-        primaryStage.setTitle("Button Event Inner Class");
+        primaryStage.setTitle("Yahtzee (\u00AE Hasbro)");
         primaryStage.setScene(scene);
         primaryStage.show();
 
