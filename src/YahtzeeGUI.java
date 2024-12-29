@@ -136,6 +136,17 @@ public class YahtzeeGUI extends Application {
     }
 
     /**
+     * Tell them they need to roll first
+     */
+    public void rollFirst() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Roll Alert");
+        alert.setHeaderText("You haven't rolled.");
+        alert.setContentText("You have to roll before you can record a score.");
+        alert.showAndWait();
+    }
+
+    /**
      * Use the button state to determine if we've used all values.
      *
      * @return true if the game is over
@@ -254,22 +265,27 @@ public class YahtzeeGUI extends Application {
     private class ButtonHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent e) {
-            Button b = (Button) e.getSource();
-            boolean off = true;
-
-            // if it's not the rollBTN, might as well sort them.
-            // we're done here...
-            if (b != rollBTN) {
-                Arrays.sort(dice);
-                setPrompts(false);
-            }
+            Button b = (Button)e.getSource();
 
             if (b == rollBTN) {
                 if (rolls > 0)
                     roll();
                 setPrompts(true);
-                off = false;
-            } else if (b == onesBTN) {
+                return;
+            }
+
+            // if it's not the rollBTN, check if they've even rolled.
+            if ( rolls == 3 ) {
+                rollFirst();
+                return;
+            }
+
+            // might as well sort them.
+            // we're done here...
+            Arrays.sort(dice);
+            setPrompts(false);
+
+            if (b == onesBTN) {
                 onesTF.setText("" + totalOf(dice, 1));
             } else if (b == twosBTN) {
                 twosTF.setText("" + totalOf(dice, 2));
@@ -297,13 +313,11 @@ public class YahtzeeGUI extends Application {
                 chanceTF.setText(diceTotalTF.getText());
             }
 
-            // change disable state.
-            b.setDisable(off);
-            if (b != rollBTN) {
-                updateTotal();
-                gameOver();
-                resetDice();
-            }
+            // disable button, then update the total.
+            b.setDisable(true);
+            updateTotal();
+            resetDice();
+            gameOver();
         }
     }
 
@@ -316,6 +330,7 @@ public class YahtzeeGUI extends Application {
         for (int x = 0; x < 5; x++) {
             dice[x] = 0;
             diceTB[x].setSelected(false);
+            //diceTB[x].setDisable(false);
         }
         showDice();
         updateRolls();
@@ -400,6 +415,7 @@ public class YahtzeeGUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        resetDice();
         showDice();
     }
 
