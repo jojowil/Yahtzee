@@ -594,8 +594,4 @@ public class YahtzeeGUI extends Application {
     public static boolean isYahtzee(int[] d) {
         return d[0] == d[4];
     }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
